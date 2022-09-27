@@ -1,11 +1,11 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 
-const Card = ({ title, color }) => {
+const Card = ({ title, color, onPress }) => {
   return (
     <View style={{ ...styles.cardBlock, backgroundColor: color }}>
-      <Pressable style={styles.pressableContainer} android_ripple={{color: '#ccc'}}>
+      <Pressable style={styles.pressableContainer} android_ripple={{color: '#ccc'}} onPress={onPress}>
         <View style={styles.innerContainer}>
-          <Text>{title}</Text>
+          <Text style={styles.textContainer}>{title}</Text>
         </View>
       </Pressable>
     </View>
@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  textContainer : {
+    fontSize: 16,
+  }
 });
 
 export default Card;
