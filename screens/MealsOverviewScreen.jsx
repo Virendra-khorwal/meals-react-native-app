@@ -11,6 +11,12 @@ const MealsOverviewScreen = ({route,navigation}) => {
         item.categoryIds.indexOf(catId) >=0 
     ))
 
+    const onPressHandler = (itemData) => {
+        navigation.navigate('MealDetailScreen', {
+            mealId: itemData.item.id
+        })
+    }
+
     useLayoutEffect(() => {
         const catTitle = CATEGORIES.find((category)=> category.id === catId).title;
 
@@ -24,7 +30,7 @@ const MealsOverviewScreen = ({route,navigation}) => {
     return(
         <View style={styles.container}>
             <FlatList data={displayMeal} renderItem={(itemData) => (
-                <MealItem itemData={itemData.item} />
+                <MealItem itemData={itemData.item} onPress={() => onPressHandler(itemData)} />
             )} />
         </View>
     )
