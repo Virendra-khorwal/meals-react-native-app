@@ -4,14 +4,17 @@ import {Ionicons} from '@expo/vector-icons';
 import MealList from "../components/MealList";
 import { MEALS } from "../data/dummy-data";
 import { FavouriteContext } from "../store/context/FavouriteContext";
+import { useSelector } from "react-redux";
 
 
 const FavoriteScreen = () => {
     
-    const favMealContext = useContext(FavouriteContext);
+    // const favMealContext = useContext(FavouriteContext);
+    const favMealIds = useSelector((state) => state.favouriteMeal.ids);
+    // const favMeals = MEALS.filter((meal) => favMealContext.ids.includes(meal.id));
+    const favMeals = MEALS.filter((meal) => favMealIds.includes(meal.id))
 
-    const favMeals = MEALS.filter((meal) => favMealContext.ids.includes(meal.id));
-
+    
     if(favMeals.length === 0) {
         return (
             <View style={styles.rootContainer}>

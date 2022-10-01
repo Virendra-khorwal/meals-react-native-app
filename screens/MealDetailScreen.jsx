@@ -1,9 +1,14 @@
-import { useContext, useLayoutEffect } from "react";
-import { StyleSheet, Text, View,Image, ScrollView, Button } from "react-native"
+import { 
+  // useContext, 
+  useLayoutEffect 
+} from "react";
+import { StyleSheet, Text, View,Image, ScrollView} from "react-native"
+import { useDispatch, useSelector } from "react-redux";
 
 import IconButton from "../components/IconButton";
 import { MEALS } from "../data/dummy-data";
-import { FavouriteContext } from "../store/context/FavouriteContext";
+// import { FavouriteContext } from "../store/context/FavouriteContext";
+import { addFav, removeFav } from "../store/redux/favouriteSlice";
 
 const MealDetailScreen = ({route, navigation}) => {
 
@@ -12,15 +17,23 @@ const MealDetailScreen = ({route, navigation}) => {
         meal.id === mealId
     ))
 
-    const mealFavContext = useContext(FavouriteContext)
+    // const mealFavContext = useContext(FavouriteContext)
+    const favMealIds = useSelector((state) => state.favouriteMeal.ids);
+    const dispatch = useDispatch();
 
-    const isMealFav = mealFavContext.ids.includes(mealId);
+
+
+    // const isMealFav = mealFavContext.ids.includes(mealId);
+    const isMealFav = favMealIds.includes(mealId);
 
     const onPressHandler = () => {
       if (isMealFav) {
-        mealFavContext.removeFav(mealId);
+        // mealFavContext.removeFav(mealId);
+        dispatch(removeFav({id: mealId}));
+        
       } else {
-        mealFavContext.addFav(mealId);
+        // mealFavContext.addFav(mealId);
+        dispatch(addFav({id: mealId}));
       }
     };
 
@@ -31,7 +44,7 @@ const MealDetailScreen = ({route, navigation}) => {
         navigation.setOptions({
             title:title,
             headerRight: () => (
-                <IconButton icon={isMealFav ? 'star' : 'star-outline'} color='white' onPress={onPressHandler} />
+                <IconButton icon={isMealFav ? 'heart' : 'heart-outline'} color='black' onPress={onPressHandler} />
             )
         })
     },[navigation, mealData, onPressHandler])
