@@ -1,7 +1,9 @@
-import { useLayoutEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 import { StyleSheet, Text, View,Image, ScrollView, Button } from "react-native"
+
 import IconButton from "../components/IconButton";
 import { MEALS } from "../data/dummy-data";
+import { FavouriteContext } from "../store/context/FavouriteContext";
 
 const MealDetailScreen = ({route, navigation}) => {
 
@@ -10,20 +12,29 @@ const MealDetailScreen = ({route, navigation}) => {
         meal.id === mealId
     ))
 
+    const mealFavContext = useContext(FavouriteContext)
+
+    const isMealFav = mealFavContext.ids.includes(mealId);
+
+    const onPressHandler = () => {
+      if (isMealFav) {
+        mealFavContext.removeFav(mealId);
+      } else {
+        mealFavContext.addFav(mealId);
+      }
+    };
+
     useLayoutEffect(()=> {
         const title = mealData.title
 
-        const onPressHandler = () => {
-            
-        }
-
+        
         navigation.setOptions({
             title:title,
             headerRight: () => (
-                <IconButton icon='star' color='white' onPress={onPressHandler} />
+                <IconButton icon={isMealFav ? 'star' : 'star-outline'} color='white' onPress={onPressHandler} />
             )
         })
-    },[navigation, mealData])
+    },[navigation, mealData, onPressHandler])
 
     return (
       <ScrollView>

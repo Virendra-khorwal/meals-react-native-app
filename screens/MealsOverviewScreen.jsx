@@ -1,7 +1,8 @@
-import { StyleSheet, View, Text, FlatList } from "react-native";
+
 import { MEALS, CATEGORIES } from "../data/dummy-data";
-import MealItem from "../components/MealItem";
+
 import { useLayoutEffect } from "react";
+import MealList from "../components/MealList";
 
 const MealsOverviewScreen = ({route,navigation}) => {
 
@@ -11,11 +12,7 @@ const MealsOverviewScreen = ({route,navigation}) => {
         item.categoryIds.indexOf(catId) >=0 
     ))
 
-    const onPressHandler = (itemData) => {
-        navigation.navigate('MealDetailScreen', {
-            mealId: itemData.item.id
-        })
-    }
+    
 
     useLayoutEffect(() => {
         const catTitle = CATEGORIES.find((category)=> category.id === catId).title;
@@ -28,19 +25,10 @@ const MealsOverviewScreen = ({route,navigation}) => {
     // Here we use use Layout Hook becuase when we using useEffect it changes title when the content loaded but use layout change the title as the layout change.
 
     return(
-        <View style={styles.container}>
-            <FlatList data={displayMeal} renderItem={(itemData) => (
-                <MealItem itemData={itemData.item} onPress={() => onPressHandler(itemData)} />
-            )} />
-        </View>
+        <MealList items={displayMeal} />
     )
 }
 
-const styles = StyleSheet.create({
-    container : {
-        flex: 1,
-        padding: 16,
-    }
-})
+
 
 export default MealsOverviewScreen;

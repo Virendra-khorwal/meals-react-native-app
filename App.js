@@ -1,13 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import CategoriesScreen from './screens/CategoriesScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Ionicons } from '@expo/vector-icons'
+
 import MealsOverviewScreen from './screens/MealsOverviewScreen';
 import MealDetailScreen from './screens/MealDetailScreen';
 import FavoriteScreen from './screens/FavoriteScreen';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Ionicons } from '@expo/vector-icons'
+import CategoriesScreen from './screens/CategoriesScreen';
+import FavouritesContextProvider from './store/context/FavouriteContext';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -35,6 +37,7 @@ const DrawerNavigator = () => {
 export default function App() {
   return (
     <View style={styles.container}>
+      <FavouritesContextProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
           headerStyle: {backgroundColor: '#1fff'},
@@ -48,6 +51,7 @@ export default function App() {
         </Stack.Navigator>
         <StatusBar style="dark" />
       </NavigationContainer>
+      </FavouritesContextProvider>
     </View>
   );
 }
